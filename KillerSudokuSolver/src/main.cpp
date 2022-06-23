@@ -5,6 +5,7 @@
 #include <string>
 
 #include "grid.hpp"
+#include "command_line_ui.hpp"
 
 std::vector<Grid> grids;
 

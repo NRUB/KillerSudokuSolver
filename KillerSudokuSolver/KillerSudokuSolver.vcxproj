@@ -12,10 +12,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\grid.cpp" />
+    <ClCompile Include="src\command_line_ui.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\grid.hpp" />
+    <ClInclude Include="src\command_line_ui.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

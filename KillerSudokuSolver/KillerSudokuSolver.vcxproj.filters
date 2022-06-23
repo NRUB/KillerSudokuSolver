@@ -18,12 +18,18 @@
     <ClCompile Include="src\grid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\command_line_ui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\grid.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\command_line_ui.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
