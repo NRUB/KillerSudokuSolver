@@ -1,4 +1,7 @@
 #include <iostream>
+#include <set>
+
+#include "grid.hpp"
 
 int main(int argc, char** argv)
 {
@@ -22,6 +25,12 @@ int main(int argc, char** argv)
 	else {
 		std::string line;
 		std::ifstream file(argv[1], std::ios_base::binary | std::ios_base::in);
+
+		Grid grid;
+		{ //initialize grid
+			std::set<short> cells_used;
+		}
+
 	}
 	return 0;
 }
