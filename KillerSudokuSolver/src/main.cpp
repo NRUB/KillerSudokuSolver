@@ -128,6 +128,16 @@ int main(int argc, char** argv)
 			if (command.compare("q") == 0) {
 				return 0;
 			}
+			if (command.starts_with("fill")) {
+				std::string cell = command.substr(5, command.length() - 5);
+				int x = atoi(cell.substr(0, 1).c_str());
+				int y = atoi(cell.substr(2, 1).c_str());
+				short v = atoi(cell.substr(4, 1).c_str());
+				if (x >= 1 && x <= 9 && y >= 1 && y <= 9 && v >= 1 && v <= 9 && grid.get_candidates(x, y).contains(v)) {
+					grid.set_cell(x, y, v);
+				}
+				continue;
+			}
 			if (command.starts_with("branch")) {
 				std::string cell = command.substr(7, command.length() - 7);
 				int x = atoi(cell.substr(0, 1).c_str());
