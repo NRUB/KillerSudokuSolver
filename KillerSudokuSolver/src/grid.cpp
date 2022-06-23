@@ -25,6 +25,7 @@ void Grid::set_cell(int x, int y, short value) {
 		--x;
 		--y;
 		grid[y * 9 + x] = value;
+		candidates[y * 9 + x].clear();
 
 		for (int n = 0; n < 9; ++n) {
 			candidates[y * 9 + n].erase(value); //row			
