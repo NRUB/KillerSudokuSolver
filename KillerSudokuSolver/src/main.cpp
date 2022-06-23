@@ -74,13 +74,57 @@ int main(int argc, char** argv)
 
 		while (true) {
 			system("cls");
+			bool solved = true;
+			bool unsolvable = false;
+			for (int y = 1; y <= 9 && !unsolvable; ++y) {
+				for (int x = 1; x <= 9 && !unsolvable; ++x) {
+					if (grid.get_cell(x, y) == 0) {
+						solved = false;
+						if (grid.get_candidates(x, y).size() == 0) {
+							unsolvable = true;
+						}
+					}
+					std::set<short> candidates = grid.get_candidates(x, y);
+					if (candidates.size() == 1) {
+						grid.set_cell(x, y, *candidates.begin());
+						x = 0;
+						y = 0;
+						solved = true;
+					}
+				}
+			}
 			draw_grid(grid);
+
+			if (solved || unsolvable) {
+				if (solved) {
+					std::cout << "Sudoku solved!\n";
+				}
+				if (unsolvable) {
+					std::cout << "This grid is unsolvable!\n";
+				}
+				if (grids.size() > 1) {
+					std::cout << "There are more unfinished grids, do you wish to continue? y/n\n";
+				}
+				else {
+					return 0;
+				}
+			}
+			else {
 				std::cout << "         q - quit\n";
 				std::cout << "branch x:y - branch from a cell (x[1;9], y[1;9])\n";
 				std::cout << "fill x:y v - fill a cell with a value (x[1;9], y[1;9] v[1,9])\n";
+			}
 
 			std::string command;
 			std::getline(std::cin, command);
+			if (command.compare("n") == 0 && (solved || unsolvable)) {
+				return 0;
+			}
+			if (command.compare("y") == 0 && (solved || unsolvable)) {
+				grid = grids.back();
+				grids.pop_back();
+				continue;
+			}
 			if (command.compare("q") == 0) {
 				return 0;
 			}
