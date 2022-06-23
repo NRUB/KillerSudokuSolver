@@ -72,6 +72,29 @@ int main(int argc, char** argv)
 			grids.emplace_back(grid);
 		}
 
+		while (true) {
+			system("cls");
+			draw_grid(grid);
+				std::cout << "         q - quit\n";
+				std::cout << "branch x:y - branch from a cell (x[1;9], y[1;9])\n";
+				std::cout << "fill x:y v - fill a cell with a value (x[1;9], y[1;9] v[1,9])\n";
+
+			std::string command;
+			std::getline(std::cin, command);
+			if (command.compare("q") == 0) {
+				return 0;
+			}
+			if (command.starts_with("branch")) {
+				std::string cell = command.substr(7, command.length() - 7);
+				int x = atoi(cell.substr(0, 1).c_str());
+				int y = atoi(cell.substr(2, 1).c_str());
+
+				if (grid.get_cell(x, y) != 0) {
+					std::cout << "Cell already has value\n";
+					system("pause");
+					continue;
+				}
+		}
 	}
 	return 0;
 }
