@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <set>
+#include <stack>
 #include <string>
 
 #include "grid.hpp"
@@ -72,7 +73,7 @@ int main(int argc, char** argv)
 			grids.emplace_back(grid);
 		}
 
-		while (true) {
+		while (true) { //main loop
 			system("cls");
 			bool solved = true;
 			bool unsolvable = false;
@@ -90,6 +91,7 @@ int main(int argc, char** argv)
 						x = 0;
 						y = 0;
 						solved = true;
+						break;
 					}
 				}
 			}
@@ -148,6 +150,60 @@ int main(int argc, char** argv)
 					system("pause");
 					continue;
 				}
+
+				Grid current = grid;
+				Cage cage = current.get_cage(x, y);
+				std::stack<std::pair<Grid, short>> stack; //poor man's recursion
+				std::set<short> used_values; //no duplicate values in a cage
+				int remainder = cage.sum;
+				int n = 1;
+				while (true) {
+					for (; n <= 9; ++n) {
+						int x = (cage.cells[stack.size()]) % 9 + 1;
+						int y = (cage.cells[stack.size()]) / 9 + 1;
+						if (current.get_candidates(x, y).contains(n) && !used_values.contains(n)) {
+							if (stack.size() == cage.cells.size() - 1) { //last cell in range
+								if (remainder == n) {
+									Grid branch(current);
+									branch.set_cell(x, y, n);
+									grids.push_back(branch);
+								}
+								else { //doesn't add up to a sum
+									continue;
+								}
+							}
+							else {
+								used_values.insert(n);
+								Grid branch(current);
+								stack.push({branch, n});
+
+								current.set_cell(x, y, n);
+								remainder -= n;
+								if (remainder > 0) {
+									n = 0;
+								}
+								else {
+									used_values.erase(stack.top().second);
+									current = stack.top().first;
+									remainder += stack.top().second;
+									n = stack.top().second + 1;
+									stack.pop();
+								}
+							}
+						}
+					}
+					if (stack.empty()) {
+						break;
+					}
+					used_values.erase(stack.top().second);
+					current = stack.top().first;
+					remainder += stack.top().second;
+					n = stack.top().second + 1;
+					stack.pop();
+				}
+				grid = grids.back();
+				grids.pop_back();
+			}
 		}
 	}
 	return 0;
