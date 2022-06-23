@@ -1,7 +1,12 @@
 #include <iostream>
+#include <vector>
+#include <fstream>
 #include <set>
+#include <string>
 
 #include "grid.hpp"
+
+std::vector<Grid> grids;
 
 int main(int argc, char** argv)
 {
@@ -29,6 +34,41 @@ int main(int argc, char** argv)
 		Grid grid;
 		{ //initialize grid
 			std::set<short> cells_used;
+			while (std::getline(file, line)) {
+				if (line.starts_with('#')) {
+					continue;
+				}
+				size_t f = line.find(':');
+				Cage cage;
+				cage.sum = std::atoi(line.substr(0, f).c_str());
+				for (size_t n = line.find(']', f); n < line.length();) {
+					int cell = atoi(line.substr(f + 2, n - f - 2).c_str());
+					f = n;
+					n = line.find(']', f + 1);
+					if (cells_used.contains(cell)) {
+						std::cout << "Error: Cell " << cell << " already used!\n";
+						return 0;
+					}
+					if (cell < 1 || cell > 81) {
+						std::cout << "Error: Cell id " << cell << " out of bounds!\n";
+						return 0;
+					}
+					cells_used.emplace(cell);
+					cage.cells.emplace_back(cell - 1);
+				}
+				if (cage.cells.size() == 1) {
+					grid.set_cell(((cage.cells[0] - 1) % 9) + 1, ((cage.cells[0] - 1) / 9) + 1, cage.sum);
+				}
+				else {
+					grid.add_cage(cage);
+				}
+			}
+			if (cells_used.size() != 81) {
+				std::cout << "Error: Not all cells have been used!\n";
+				return 0;
+			}
+			std::cout << "    " << argv[1] << " loaded!\n";
+			grids.emplace_back(grid);
 		}
 
 	}
