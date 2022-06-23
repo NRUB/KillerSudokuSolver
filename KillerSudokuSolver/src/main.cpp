@@ -59,7 +59,7 @@ int main(int argc, char** argv)
 					cage.cells.emplace_back(cell - 1);
 				}
 				if (cage.cells.size() == 1) {
-					grid.set_cell(((cage.cells[0] - 1) % 9) + 1, ((cage.cells[0] - 1) / 9) + 1, cage.sum);
+					grid.set_cell(((cage.cells[0]) % 9) + 1, ((cage.cells[0]) / 9) + 1, cage.sum);
 				}
 				else {
 					grid.add_cage(cage);
