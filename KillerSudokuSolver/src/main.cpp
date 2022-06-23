@@ -58,11 +58,9 @@ int main(int argc, char** argv)
 					cells_used.emplace(cell);
 					cage.cells.emplace_back(cell - 1);
 				}
+				grid.add_cage(cage);
 				if (cage.cells.size() == 1) {
 					grid.set_cell(((cage.cells[0]) % 9) + 1, ((cage.cells[0]) / 9) + 1, cage.sum);
-				}
-				else {
-					grid.add_cage(cage);
 				}
 			}
 			if (cells_used.size() != 81) {
